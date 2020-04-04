@@ -12,6 +12,14 @@ module.exports = function(app) {
         });  
     });
 
+    app.get("/signup", function(req, res) {
+        return fs.readFile(__dirname + "/../public/signuplogin.html", function(err, data) {
+            if (err) throw err;
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(data);
+        });  
+    });
+
     app.get("/collection", function(req, res) {
         return fs.readFile(__dirname + "/../public/collection.html", function(err, data) {
             if (err) throw err;

@@ -1,6 +1,7 @@
 
 var fs = require('fs');
 var db = require("../models");
+var passport = require("../config/passport");
 
 module.exports = function(app) {
 
@@ -45,6 +46,15 @@ module.exports = function(app) {
             res.json(dbGallery);
         });
     });
+
+    app.post("/api/signup", function(req, res) {
+        db.User.create({
+            email: req.body.email,
+            password: req.body.password
+        }).then(function() {
+            res.redirect()//redirect to login?
+        })
+    })
 
     app.post("/api/gallery", function(req, res) {
         db.Gallery.create(req.body).then(function(dbGallery) {

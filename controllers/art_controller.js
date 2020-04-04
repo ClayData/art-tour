@@ -29,6 +29,11 @@ module.exports = function(app) {
         });  
     });
 
+    //add get to get current user
+    app.get("/api/user", function(req, res) {
+        res.json(req.user);
+    })
+
     app.get("/api/collection/:name", function(req, res) {
         let specificGal = req.params.name;
         db.Collections.findAll({
@@ -41,8 +46,13 @@ module.exports = function(app) {
         console.log("works");
     });
 
-    app.get("/api/gallery", function(req, res) {
-        db.Gallery.findAll({}).then((dbGallery)=>{
+    app.get("/api/gallery/:user", function(req, res) {
+        let currentUser = req.params.user;
+        db.Gallery.findAll({
+            where: {
+                user: currentUser
+            }
+        }).then((dbGallery)=>{
             res.json(dbGallery);
         });
     });

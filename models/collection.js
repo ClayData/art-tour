@@ -12,10 +12,5 @@ module.exports = function(sequelize, DataTypes) {
             foreignKey:'gallery'
         })
     }
-    Collections.associate = function(models) {
-        Collections.belongsTo(models.User, {
-            foreignKey:'user'
-        })
-    }
     return Collections;
 }

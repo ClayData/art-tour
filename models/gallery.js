@@ -10,6 +10,11 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: "cascade"
         });
     };
+    Gallery.associate = function(models) {
+        Gallery.belongsTo(models.User, {
+            foreignKey:'user'
+        })
+    }
 
     return Gallery;
 }

@@ -51,7 +51,7 @@ $(document).ready(function() {
     };
 
     function getGalleries () {
-        $.get("/api/gallery", renderGalleryList);
+        $.get("/api/gallery/" + currentUser, renderGalleryList);
     }
 
     function renderGalleryList(data) {
@@ -62,7 +62,7 @@ $(document).ready(function() {
 
             $("#gallery-list").empty();
             $("#gallery-list").prepend(rowsToAdd);
-            console.log("getting rows")
+            
     }
 
     function createGalleryRow(data) {
@@ -76,18 +76,30 @@ $(document).ready(function() {
     function saveName(event) {
         event.preventDefault();
             let newGal = {
-                name: $('#galleryName').val()
+                name: $('#galleryName').val(),
+                user: currentUser
             };
 
             $.ajax("/api/gallery",{ 
                 method: "POST",
                 data: newGal
             }).then(() => {
-                console.log("added gallery name to table");
                 getGalleries();
             });
             //event.stopImmediatePropagation();
         };
+
+    function getUser() {
+        $.get("/api/user", setUser)
+    }
+
+    let currentUser;
+
+    function setUser(data) {
+        currentUser = data.id;
+        console.log(currentUser);
+    }
+    getUser();
 
     function sendToCollection (event) {
         event.preventDefault();
@@ -109,7 +121,7 @@ $(document).ready(function() {
             method: "POST",
             data: newPiece
         }).then(() => {
-            console.log("added art piece to table"); 
+             
             getArt();
         });
         $("#saveAlert").text(`Saved to ${gallery}`);

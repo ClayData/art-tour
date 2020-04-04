@@ -47,12 +47,19 @@ module.exports = function(app) {
         });
     });
 
+    app.post("/api/login", passport.authenticate("local"), function(req, res) {
+        res.json(req.user);
+    })
+
     app.post("/api/signup", function(req, res) {
         db.User.create({
             email: req.body.email,
             password: req.body.password
         }).then(function() {
-            res.redirect()//redirect to login?
+            res.redirect(307, "/api/login");//redirect to login?
+        })
+        .catch(function(err) {
+            res.status(401).json(err);
         })
     })
 

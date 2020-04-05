@@ -24,7 +24,7 @@ $(document).ready(function() {
             email: email,
             password: password
         }).then((data) => {
-            window.location.replace("/");
+            window.location.replace("/search.html");
         })
         .catch(handleLoginErr);
     }

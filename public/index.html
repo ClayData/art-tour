@@ -3,72 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="js/frontpage.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="./js/signup.js"></script>
     <title>Art Collector</title>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">Met Art Collection</a>
-      </nav>
-      
-<div class="container-full">
-	<div class="row">
-        <div class="col-lg-2 galleryMenu">
-            <form>
-                <div class="form-group">
-                  <label>Gallery Name</label>
-                  <input class="form-control" id="galleryName">
-                </div>
-                <button type="submit" class="btn btn-primary" id="addGallery">Add Gallery</button>
-            </form>
+    <div class="container-full">
+        <div class="row">
 
-            <div id="userGalleries">
-                <div class="list-group" id="gallery-list">
-
-                </div>
+            <div class="col-6">
+                <h3>Log In</h3>
+                <form >
+                    <div class="form-group">
+                        <label for="emailLogIn">Email address</label>
+                        <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordLogIn">Password</label>
+                        <input type="password" class="form-control" id="passwordLogin">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>          
             </div>
-            <br/>
-            <br/>
-            <button type="button" id="viewGalleriesButton" class="btn btn-outline-primary">View Galleries</button>
-        </div>
-        <div class="col-lg-8">
-            <center><h1><a href="/">Met Art Collection</a></h1></center>
 
-            <center>
-            <div class="art" id="item">
-                <h3 id="title"></h3>
-                <img id="image" src="" style="width:60%;"><br>
-                <h4 id="artist"></h4>
-                <h5 id="date"></h5>
-                <button id="save" class="btn btn-primary">Save to Gallery</button>
+            <div class="col-6">
+                <h3>Sign Up</h3>
+                <form class="signup">
+                    <div class="form-group">
+                        <label for="emailSignUp">Email address</label>
+                        <input type="email" class="form-control" id="emailSignUp" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordLogIn">Password</label>
+                        <input type="password" class="form-control" id="passwordSignUp">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>          
             </div>
-            
-            <br/>
-                <div id="saveAlert">
-                    
-                </div>
-            <br/>
-            
-            </center>
-            
-            <center>
-            <button id="runButton" class="btn btn-primary">Get Art</button>
-            </center>
-        </div>
-        <div class="col-lg-2">
+
 
         </div>
-	</div>
-</div>
+    </div>
 
-
-<div class="container" style="text-align:center">
-    &copy;2019 <a href="/">Met Art Collection</a>
-</div>
 </body>
 </html>

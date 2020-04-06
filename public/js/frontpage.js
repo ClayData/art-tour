@@ -17,13 +17,13 @@ $(document).ready(function() {
             method: "GET",
             url: url
         }).then(function(response) {
-
-                
-
+            $(".art-works").empty();
+            for(let i = 0; i < 10; i++){
                 getArtPiece(response.objectIDs[count]);
                 count++;
-            })
-    };
+            }
+        }
+    )};
 
     function getArtPiece(id) {
 
@@ -36,13 +36,43 @@ $(document).ready(function() {
 
             let artObject = response;
 
-            $("#image").attr("src", artObject.primaryImageSmall);
-                $("#title").text(artObject.title);
-                $("#artist").text(artObject.artistDisplayName);
-                $("#date").text(artObject.objectDate);
-
+            createArtworkDiv(artObject);
                 return;
         })
+    }
+
+    function createArtworkDiv (data) {
+        let artworkDiv = $("<div>");
+            artworkDiv.attr({"class": "card"}).css("width", "40rem");
+    
+        let artworkImg = $("<img>");
+            artworkImg.attr({"src": data.primaryImageSmall,
+                             "class": "card-img-top",
+                             "alt": "artwork"});
+    
+        let artworkTitle = $("<h4>");
+            artworkTitle.text(data.title).attr({"class": "card-text"});
+        
+        let artworkArtist = $("<h4>");
+            artworkArtist.text(data.artistDisplayName).attr({"class": "card-text"});
+    
+        let artworkDate = $("<p>");
+            artworkDate.text(data.objectDate).attr({"class": "card-text"})
+    
+        let saveButton = $("<button>");
+            saveButton.text("Save to Gallery").attr({"id": "save",
+                                                     "class": "btn btn-primary",
+                                                     "type": "button"})
+
+        artworkDiv.append(artworkImg);
+        artworkDiv.append(artworkTitle);
+        artworkDiv.append(artworkArtist);
+        artworkDiv.append(artworkDate);
+        // artworkDiv.append(saveButton);
+    
+        $(".art-works").append(artworkDiv);
+
+        
     }
 
     function getGalleries () {

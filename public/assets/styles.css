@@ -15,6 +15,14 @@ font-size: 1.5rem;
 cursor: pointer;
 }
 
+.form-group {
+    margin-right: 1em;
+}
+
+label {
+    margin-right: 1em;
+}
+
 .galleryMenu {
     border-right-color: black;
     border-right-width: 1px;
@@ -43,6 +51,7 @@ cursor: pointer;
     display: grid;
     place-items: center;
 }
+
 
 #image {
     background-color: white;

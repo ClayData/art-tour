@@ -1,10 +1,12 @@
 $(document).ready(function() {
     const idsUrl = "https://collectionapi.metmuseum.org/public/collection/v1/objects";
 
+    const $galleryList = $("#gallery-list");
     let numIds;
     let ids;
     let currentUser;
     let gallery = null;
+    
 
     $.ajax({
         method: "GET",
@@ -72,10 +74,8 @@ $(document).ready(function() {
                                 "type": "button", "data-isActive": "false"});
             galleryOption.text(data.name);
 
-        var delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-note'>");
-            delBtn.attr({"data-toggle": "modal",
-                        "data-target": "#myModal",
-                        "id": data.name});
+        var delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-gallery'>");
+            delBtn.attr({"id": data.name});
 
         galleryOption.append(delBtn);
         return galleryOption;
@@ -149,12 +149,16 @@ $(document).ready(function() {
         window.location.href = "/collection";
     }
 
-    function delGallery(id) {
+    $($galleryList).on("click", ".delete-gallery",function() {
+        let result = confirm("Are you sure you want to delete this gallery?");
+
+        if(result){
         $.ajax({
-            url:"/api/gallery/" + id,
+            url:"/api/gallery/" + this.id,
             method: "DELETE"
         }).then(() => getGalleries());
-    };
+    }
+    });
 
 
 
@@ -162,7 +166,7 @@ $(document).ready(function() {
     $(document).on('click', "#save", sendToCollection);
     $(document).on('click', ".galleryButton", renderGalleryButtons);
     $(document).on("click", "#viewGalleriesButton", viewGalleries);
-    $(".gallery-delete").on("click", delGallery(""));
+    
 
     getUser();
     getGalleries();

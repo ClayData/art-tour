@@ -1,25 +1,9 @@
 $(document).ready(function() {
     
-   
-
     const $galleryList = $("#gallery-list");
-    let numIds;
-    let ids;
     let currentUser;
     let gallery = null;
-    
-
-    // $.ajax({
-    //     method: "GET",
-    //     url: idsUrl
-    // }).then(function(idResponse) {
-    //     numIds = idResponse.total;
-    //     ids = idResponse.objectIDs;
-        
-    //     getArt();
-
-    //     $("#runButton").on("click", getArt);
-    // });
+    let count = 0;
 
     function getArtReqs() {
         
@@ -33,7 +17,11 @@ $(document).ready(function() {
             method: "GET",
             url: url
         }).then(function(response) {
-                getArtPiece(response.objectIDs[1]);
+
+                
+
+                getArtPiece(response.objectIDs[count]);
+                count++;
             })
     };
 

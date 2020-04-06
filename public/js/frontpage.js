@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    const idsUrl = "https://collectionapi.metmuseum.org/public/collection/v1/objects";
+    
+   
 
     const $galleryList = $("#gallery-list");
     let numIds;
@@ -8,50 +9,53 @@ $(document).ready(function() {
     let gallery = null;
     
 
-    $.ajax({
-        method: "GET",
-        url: idsUrl
-    }).then(function(idResponse) {
-        numIds = idResponse.total;
-        ids = idResponse.objectIDs;
+    // $.ajax({
+    //     method: "GET",
+    //     url: idsUrl
+    // }).then(function(idResponse) {
+    //     numIds = idResponse.total;
+    //     ids = idResponse.objectIDs;
         
-        getArt();
+    //     getArt();
 
-        $("#runButton").on("click", getArt);
-    });
+    //     $("#runButton").on("click", getArt);
+    // });
 
-    function getArt() {
-        const randIndex = Math.floor(Math.random()*numIds);
-        const url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/" + ids[randIndex];
+    function getArtReqs() {
+        
+        let searchKey = $("#searchInput").val().trim();
+        let departmentId = $("#departmentSelect option:selected").attr("data-id")
+
+
+        const url = `https://collectionapi.metmuseum.org/public/collection/v1/search?departmentId=${departmentId}&hasImages=true&q=${searchKey}`;
 
         $.ajax({
             method: "GET",
             url: url
         }).then(function(response) {
+                getArtPiece(response.objectIDs[1]);
+            })
+    };
 
-            let image = "";
-            try {
-                image = response.primaryImageSmall;
-            }
-            catch (error) {
-                //pass (primaryImageSmall does not exist)
-            }
+    function getArtPiece(id) {
 
-            if(image != "") {
-                $("#saveAlert").text("");
-                
-                artObject = response;
+        let artUrl = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
 
-                $("#image").attr("src", artObject.primaryImageSmall);
+        $.ajax({
+            method: "GET",
+            url: artUrl
+        }).then(function(response) {
+
+            let artObject = response;
+
+            $("#image").attr("src", artObject.primaryImageSmall);
                 $("#title").text(artObject.title);
                 $("#artist").text(artObject.artistDisplayName);
                 $("#date").text(artObject.objectDate);
 
                 return;
-            }
-            getArt();
-        });
-    };
+        })
+    }
 
     function getGalleries () {
         $.get("/api/gallery/" + currentUser, renderGalleryList);
@@ -106,7 +110,7 @@ $(document).ready(function() {
         currentUser = data.id;
         console.log(currentUser);
     }
-    getUser();
+    
 
     function sendToCollection (event) {
         event.preventDefault();
@@ -161,7 +165,7 @@ $(document).ready(function() {
     });
 
 
-
+    $(document).on("click", "#runButton", getArtReqs);
     $(document).on("click", "#addGallery", saveName);
     $(document).on('click', "#save", sendToCollection);
     $(document).on('click', ".galleryButton", renderGalleryButtons);
@@ -170,4 +174,5 @@ $(document).ready(function() {
 
     getUser();
     getGalleries();
+
 });

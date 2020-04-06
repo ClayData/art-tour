@@ -3,6 +3,7 @@ $(document).ready(function() {
 
     let numIds;
     let ids;
+    let currentUser;
     let gallery = null;
 
     $.ajax({
@@ -70,6 +71,12 @@ $(document).ready(function() {
             galleryOption.attr({"class": "galleryButton btn btn-group btn-light",
                                 "type": "button", "data-isActive": "false"});
             galleryOption.text(data.name);
+
+        var delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-note'>");
+            delBtn.attr({"data-toggle": "modal",
+                        "data-target": "#myModal",})
+
+        galleryOption.append(delBtn);
         return galleryOption;
     }
 
@@ -93,7 +100,6 @@ $(document).ready(function() {
         $.get("/api/user", setUser)
     }
 
-    let currentUser;
 
     function setUser(data) {
         currentUser = data.id;
@@ -142,10 +148,17 @@ $(document).ready(function() {
         window.location.href = "/collection";
     }
 
+    function openDelModal() {
+
+    }
+
+
+
     $(document).on("click", "#addGallery", saveName);
     $(document).on('click', "#save", sendToCollection);
     $(document).on('click', ".galleryButton", renderGalleryButtons);
     $(document).on("click", "#viewGalleriesButton", viewGalleries);
 
+    getUser();
     getGalleries();
 });

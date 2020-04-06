@@ -46,6 +46,12 @@ module.exports = function(app) {
         console.log("works");
     });
 
+    app.get("/api/gallery", function(req, res) {
+        db.Gallery.findAll({}).then((dbGallery) => {
+            res.json(dbGallery);
+        })
+    })
+
     app.get("/api/gallery/:user", function(req, res) {
         let currentUser = req.params.user;
         db.Gallery.findAll({
@@ -85,4 +91,13 @@ module.exports = function(app) {
         });
     });
 
+    app.delete("/api/gallery/:name", function(req, res) {
+        db.Gallery.destroy({
+            where: {
+                name: req.params.name
+            }
+        }).then((dbGallery) => {
+            res.json(dbGallery);
+        })
+    })
 };

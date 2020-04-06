@@ -74,7 +74,8 @@ $(document).ready(function() {
 
         var delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-note'>");
             delBtn.attr({"data-toggle": "modal",
-                        "data-target": "#myModal",})
+                        "data-target": "#myModal",
+                        "id": data.name});
 
         galleryOption.append(delBtn);
         return galleryOption;
@@ -148,9 +149,12 @@ $(document).ready(function() {
         window.location.href = "/collection";
     }
 
-    function openDelModal() {
-
-    }
+    function delGallery(id) {
+        $.ajax({
+            url:"/api/gallery/" + id,
+            method: "DELETE"
+        }).then(() => getGalleries());
+    };
 
 
 
@@ -158,6 +162,7 @@ $(document).ready(function() {
     $(document).on('click', "#save", sendToCollection);
     $(document).on('click', ".galleryButton", renderGalleryButtons);
     $(document).on("click", "#viewGalleriesButton", viewGalleries);
+    $(".gallery-delete").on("click", delGallery(""));
 
     getUser();
     getGalleries();

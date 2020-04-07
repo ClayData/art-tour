@@ -1,12 +1,13 @@
 $(document).ready(function() {
     
     const $galleryList = $("#gallery-list");
+    const $artWorks = $(".art-works");
     let currentUser;
     let gallery = null;
     let count = 0;
 
-    function getArtReqs() {
-        
+    function getArtReqs(event) {
+        event.preventDefault();
         let searchKey = $("#searchInput").val().trim();
         let departmentId = $("#departmentSelect option:selected").attr("data-id")
 
@@ -47,28 +48,29 @@ $(document).ready(function() {
     
         let artworkImg = $("<img>");
             artworkImg.attr({"src": data.primaryImageSmall,
-                             "class": "card-img-top",
-                             "alt": "artwork"});
+                             "class": "card-img-top art-image",
+                             "alt": "artwork",
+                             "data-id": count});
     
         let artworkTitle = $("<h4>");
-            artworkTitle.text(data.title).attr({"class": "card-text"});
+            artworkTitle.text(data.title).attr({"class": "card-text art-title", "data-id": count});
         
         let artworkArtist = $("<h4>");
-            artworkArtist.text(data.artistDisplayName).attr({"class": "card-text"});
+            artworkArtist.text(data.artistDisplayName).attr({"class": "card-text art-artist", "data-id": count});
     
         let artworkDate = $("<p>");
-            artworkDate.text(data.objectDate).attr({"class": "card-text"})
+            artworkDate.text(data.objectDate).attr({"class": "card-text art-date", "data-id": count})
     
         let saveButton = $("<button>");
-            saveButton.text("Save to Gallery").attr({"id": "save",
-                                                     "class": "btn btn-primary",
-                                                     "type": "button"})
+            saveButton.text("Save to Gallery").attr({"class": "btn btn-primary save",
+                                                     "type": "button",
+                                                     "data-id": count})
 
         artworkDiv.append(artworkImg);
         artworkDiv.append(artworkTitle);
         artworkDiv.append(artworkArtist);
         artworkDiv.append(artworkDate);
-        // artworkDiv.append(saveButton);
+        artworkDiv.append(saveButton);
     
         $(".art-works").append(artworkDiv);
 
@@ -138,20 +140,24 @@ $(document).ready(function() {
             return;
         }
 
+        
+
         let newPiece = {
-            picture: $("#image").attr("src"),
-            title: $("#title").text(),
-            artist: $("#artist").text(),
-            date: $("#date").text(),
+            picture: $(this).siblings().attr("src"),
+            title: $(this).siblings(".art-title").text(),
+            artist: $(this).siblings(".art-artist").text(),
+            date: $(this).siblings(".art-date").text(),
             gallery: gallery
         }
+
+        console.log(newPiece);
 
         $.ajax("/api/collection",{ 
             method: "POST",
             data: newPiece
         }).then(() => {
              
-            getArt();
+            
         });
         $("#saveAlert").text(`Saved to ${gallery}`);
         //event.stopImmediatePropagation();
@@ -185,7 +191,7 @@ $(document).ready(function() {
 
     $(document).on("click", "#runButton", getArtReqs);
     $(document).on("click", "#addGallery", saveName);
-    $(document).on('click', "#save", sendToCollection);
+    $($artWorks).on('click', ".save", sendToCollection);
     $(document).on('click', ".galleryButton", renderGalleryButtons);
     $(document).on("click", "#viewGalleriesButton", viewGalleries);
     

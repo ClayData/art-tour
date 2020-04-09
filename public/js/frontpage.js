@@ -1,11 +1,14 @@
 $(document).ready(function() {
-    
+       
     const $galleryList = $("#gallery-list");
     const $artWorks = $(".art-works");
     let currentUser;
     let gallery = null;
     let count = 0;
-
+    const dataObject = {
+        dataList: []
+    }
+   
     function getArtReqs(event) {
         event.preventDefault();
         let searchKey = $("#searchInput").val().trim();
@@ -19,52 +22,79 @@ $(document).ready(function() {
             url: url
         }).then(function(response) {
             $(".art-works").empty();
-            for(let i = 0; i < 10; i++){
-                getArtPiece(response.objectIDs[count]);
-                count++;
-            }
+            
+            getArtPiece(response.objectIDs);
+            resultsWait();
         }
-    )};
+    
+    )
+    
+};
 
-    function getArtPiece(id) {
+function resultsWait() {
+    let secondsLeft = 1;
+    let timerInterval = setInterval(()=> {
+        secondsLeft--;
 
-        let artUrl = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
+        if(secondsLeft === 0) {
+            clearInterval(timerInterval);
+            let pageData = pagination(state.page, state.rows).querySet;
+            let pageNumber = pagination(state.page, state.rows).pages;
+            pageButtons(pageNumber);
+            console.log(pageData[1].title);
+            createArtworkDiv(pageData);
+            
+        }
+    }, 1000);
+}
+
+function getArtPiece(arr) {
+    
+        for(let i = 0; i < arr.length; i++){
+        let artUrl = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${arr[i]}`
 
         $.ajax({
             method: "GET",
             url: artUrl
         }).then(function(response) {
 
-            let artObject = response;
-
-            createArtworkDiv(artObject);
-                return;
+            let artObject = {
+                            image: response.primaryImageSmall,
+                            title: response.title,
+                            artist: response.artistDisplayName,
+                            date: response.objectDate
+                        };
+            
+           dataObject.dataList.push(artObject);
         })
+    }
+    return dataObject;
     }
 
     function createArtworkDiv (data) {
+        for(let i = 0; i < data.length; i++){
         let artworkDiv = $("<div>");
             artworkDiv.attr({"class": "card"}).css("width", "40rem");
     
         let artworkImg = $("<img>");
-            artworkImg.attr({"src": data.primaryImageSmall,
+            artworkImg.attr({"src": data[i].image,
                              "class": "card-img-top art-image",
-                             "alt": "artwork",
-                             "data-id": count});
+                             "alt": "artwork"
+                             });
     
         let artworkTitle = $("<h4>");
-            artworkTitle.text(data.title).attr({"class": "card-text art-title", "data-id": count});
+            artworkTitle.text(data[i].title).attr({"class": "card-text art-title"});
         
         let artworkArtist = $("<h4>");
-            artworkArtist.text(data.artistDisplayName).attr({"class": "card-text art-artist", "data-id": count});
+            artworkArtist.text(data[i].artist).attr({"class": "card-text art-artist"});
     
         let artworkDate = $("<p>");
-            artworkDate.text(data.objectDate).attr({"class": "card-text art-date", "data-id": count})
+            artworkDate.text(data[i].date).attr({"class": "card-text art-date"})
     
         let saveButton = $("<button>");
             saveButton.text("Save to Gallery").attr({"class": "btn btn-primary save",
-                                                     "type": "button",
-                                                     "data-id": count})
+                                                     "type": "button"
+                                                     })
 
         artworkDiv.append(artworkImg);
         artworkDiv.append(artworkTitle);
@@ -73,8 +103,7 @@ $(document).ready(function() {
         artworkDiv.append(saveButton);
     
         $(".art-works").append(artworkDiv);
-
-        
+     }
     }
 
     function getGalleries () {
@@ -140,8 +169,6 @@ $(document).ready(function() {
             return;
         }
 
-        
-
         let newPiece = {
             picture: $(this).siblings().attr("src"),
             title: $(this).siblings(".art-title").text(),
@@ -187,6 +214,46 @@ $(document).ready(function() {
         }).then(() => getGalleries());
     }
     });
+
+    var state = {
+        
+        'page': 1,
+        'rows': 5
+    }
+
+  function pagination(page, rows) {
+        
+        var trimStart = (page - 1) * rows;
+        var trimEnd = trimStart + rows;
+
+        var trimmedData = dataObject.dataList.slice(trimStart, trimEnd);
+
+        var pages = Math.ceil(dataObject.dataList.length / rows);
+
+        return {
+            'querySet': trimmedData,
+            'pages': pages
+        }
+    }
+    
+    function pageButtons(pages) {
+        let wrapper = $('#button-row');
+        
+        for(let page = 1; page <= pages; page++){
+            let button = $("<button>")
+                button.val(page).attr({"class": "page btn btn-sm btn-info"}).text(page);
+            wrapper.append(button);
+        }
+
+        $('.page').on('click', function() {
+            $('.art-works').empty();
+            state.page = $(this).val();
+
+            let pageData = pagination(state.page, state.rows).querySet;
+            createArtworkDiv(pageData);
+        })
+    }
+   
 
 
     $(document).on("click", "#runButton", getArtReqs);

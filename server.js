@@ -1,3 +1,4 @@
+var compression = require('compression');
 var express = require("express");
 var session = require("express-session");
 
@@ -7,6 +8,7 @@ var PORT = process.env.PORT || 5000;
 var db = require("./models");
 
 var app = express();
+app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));

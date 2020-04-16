@@ -238,7 +238,7 @@ function getArtPiece(arr) {
     
     function pageButtons(pages) {
         let wrapper = $('#button-row');
-        
+        wrapper.empty();
         for(let page = 1; page <= pages; page++){
             let button = $("<button>")
                 button.val(page).attr({"class": "page btn btn-sm btn-info"}).text(page);

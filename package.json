@@ -25,6 +25,7 @@
   "homepage": "https://github.com/ealfvin-dev/Project-2#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "mysql2": "^2.1.0",

@@ -4,13 +4,13 @@ $(document).ready(function() {
     const $artWorks = $(".art-works");
     let currentUser;
     let gallery = null;
-    let count = 0;
     const dataObject = {
         dataList: []
     }
    
     function getArtReqs(event) {
         event.preventDefault();
+        dataObject.dataList = [];
         let searchKey = $("#searchInput").val().trim();
         let departmentId = $("#departmentSelect option:selected").attr("data-id")
 
@@ -32,6 +32,8 @@ $(document).ready(function() {
 };
 
 function resultsWait() {
+    
+    
     let secondsLeft = 1;
     let timerInterval = setInterval(()=> {
         secondsLeft--;
@@ -41,11 +43,10 @@ function resultsWait() {
             let pageData = pagination(state.page, state.rows).querySet;
             let pageNumber = pagination(state.page, state.rows).pages;
             pageButtons(pageNumber);
-            console.log(pageData[1].title);
             createArtworkDiv(pageData);
             
         }
-    }, 1000);
+    }, 1200);
 }
 
 function getArtPiece(arr) {
@@ -225,7 +226,7 @@ function getArtPiece(arr) {
         
         var trimStart = (page - 1) * rows;
         var trimEnd = trimStart + rows;
-
+        
         var trimmedData = dataObject.dataList.slice(trimStart, trimEnd);
 
         var pages = Math.ceil(dataObject.dataList.length / rows);
@@ -238,6 +239,7 @@ function getArtPiece(arr) {
     
     function pageButtons(pages) {
         let wrapper = $('#button-row');
+        $('.art-works').empty();
         wrapper.empty();
         for(let page = 1; page <= pages; page++){
             let button = $("<button>")

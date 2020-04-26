@@ -7,6 +7,8 @@ $(document).ready(function() {
     const dataObject = {
         dataList: []
     }
+
+    //Makes call to API with data from forms on search page
    
     function getArtReqs(event) {
         event.preventDefault();
@@ -31,9 +33,9 @@ $(document).ready(function() {
     
 };
 
+//Used to delay return of data from Met API
+
 function resultsWait() {
-    
-    
     let secondsLeft = 1;
     let timerInterval = setInterval(()=> {
         secondsLeft--;
@@ -48,6 +50,8 @@ function resultsWait() {
         }
     }, 1200);
 }
+
+//sends artpiece info to the database
 
 function getArtPiece(arr) {
     
@@ -71,6 +75,8 @@ function getArtPiece(arr) {
     }
     return dataObject;
     }
+
+    //
 
     function createArtworkDiv (data) {
         for(let i = 0; i < data.length; i++){
@@ -255,6 +261,10 @@ function getArtPiece(arr) {
             createArtworkDiv(pageData);
         })
     }
+
+    // function logOut() {
+    //     $.get("/logout")
+    // }
    
 
 
@@ -263,7 +273,7 @@ function getArtPiece(arr) {
     $($artWorks).on('click', ".save", sendToCollection);
     $(document).on('click', ".galleryButton", renderGalleryButtons);
     $(document).on("click", "#viewGalleriesButton", viewGalleries);
-    
+    // $(document).on("click", ".signin", logOut);
 
     getUser();
     getGalleries();

@@ -79,6 +79,11 @@ module.exports = function(app) {
         })
     })
 
+    app.get("/logout", function(req, res) {
+        req.logout();
+        res.redirect("/");
+      });
+
     app.post("/api/gallery", function(req, res) {
         db.Gallery.create(req.body).then(function(dbGallery) {
             res.json(dbGallery);

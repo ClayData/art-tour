@@ -25,13 +25,14 @@ $(document).ready(function() {
             password: password
         }).then((data) => {
             window.location.replace("/search.html");
+           
         })
-        .catch(handleLoginErr);
+        // .catch();
     }
 
-    function handleLoginErr(err) {
-        $("#alert .msg").text(err.responseJSON);
-        $("#alert").fadeIn(500);
-      }
+    // function handleLoginErr(err) {
+    //     $("#alert .msg").text(err.responseJSON);
+    //     $("#alert").fadeIn(500);
+    //   }
 });
 

@@ -1,12 +1,12 @@
 $(document).ready(function() {
-    const loginForm = $("form.login");
-    const emailInput = $("input#emailLogin");
-    const passwordInput = $("input#passwordLogin");
+    var loginForm = $("form.login");
+    var emailInput = $("input#emailLogin");
+    var passwordInput = $("input#passwordLogin");
 
     loginForm.on("submit", function(event) {
         event.preventDefault();
 
-        const userData = {
+        var userData = {
             email: emailInput.val().trim(),
             password: passwordInput.val().trim()
         }
@@ -21,10 +21,11 @@ $(document).ready(function() {
     });
 
     function loginUser(email, password) {
+        console.log("ran")
         $.post("/api/login", {
             email: email,
             password: password
-        }).then(function() {
+        }).then(function(data) {
             window.location.replace("/search.html");
         })
         .catch(function(err) {

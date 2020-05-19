@@ -9,3 +9,17 @@ This application utilizes the New York Met Art Gallery api to create a virtual a
 ![](images/art_tour.png)
 
 Log-in and Sign-up page: 
+
+![](images/art_tour_signup.png)
+
+Search the api by adding a keyword and then selecting your choice of art exhibit
+
+![](images/art_tour_search.png)
+
+Create a gallery on the side bar, click and select the galllery and finally decide on the art piece you would like to add to it:
+
+![](images/art_tour_create.png)
+
+Click the galleries button to switch over and view the galleries you've created!
+
+![](images/art_tour_gallery.png)

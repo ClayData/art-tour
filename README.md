@@ -8,7 +8,7 @@ This application utilizes the New York Met Art Gallery api to create a virtual a
 
 
 
-(#Log-in-and-Sign-up-page:) 
+[create an anchor](#Log-in-and-Sign-up-page:) 
 
 ![](images/art_tour_signup.png)
 

@@ -262,9 +262,9 @@ function getArtPiece(arr) {
         })
     }
 
-    // function logOut() {
-    //     $.get("/logout")
-    // }
+    function logOut() {
+        $.get("/logout")
+    }
    
 
 
@@ -273,7 +273,7 @@ function getArtPiece(arr) {
     $($artWorks).on('click', ".save", sendToCollection);
     $(document).on('click', ".galleryButton", renderGalleryButtons);
     $(document).on("click", "#viewGalleriesButton", viewGalleries);
-    // $(document).on("click", ".signin", logOut);
+    $(document).on("click", ".signin", logOut);
 
     getUser();
     getGalleries();
